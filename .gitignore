@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+*.docx
+*.zip
+
+# Specific Unity paths
+/unity/Kernmodule 1/[Ll]ibrary
+/unity/Kernmodule 1/[Tt]emp
+/unity/Kernmodule 1/[Oo]bj
+/unity/Kernmodule 1/[Bb]uild
+/unity/Kernmodule 1/[Bb]uilds
+/unity/Kernmodule 1/[Ll]ogs
+/unity/Kernmodule 1/[Uu]ser[Ss]ettings
