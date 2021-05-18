@@ -10,6 +10,7 @@ class Vector2
         float magnitude();
         float sqrMagnitude();
         float dotProduct(Vector2 vectors[]);
+        float collisionDetection(Vector2 vectorA, Vector2 vectorB);
         Vector2 normalized();
         Vector2 operator+(const Vector2& vectorToAdd) const;
         Vector2& operator+=(const Vector2& vectorToAdd);
@@ -23,3 +24,5 @@ class Vector2
 
 // TODO: make it more applicable
 // all operators with vector2 or single param
+// angles calculaten
+// collision detection

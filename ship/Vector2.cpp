@@ -44,6 +44,16 @@ float Vector2::dotProduct(Vector2 vectors[])
     return r;
 }
 
+float collisionDetection(Vector2 vectorA, Vector2 vectorB)
+{
+    Vector2 v((vectorB.x() - vectorA.x()), (vectorB.y() - vectorA.y()));
+    float f(sqrt(pow(v.x(), 2) + pow(v.y(), 2)));
+    // TODO r1 - r2 - f
+    // if < 0 collision
+    // if = 0 right on the edge
+    // if > 0 no collision
+}
+
 Vector2 Vector2::normalized()
 {
     float xNormal = xValue / magnitude();
