@@ -29,12 +29,57 @@ float Vector2::sqrMagnitude()
     return (sqrX + sqrY);
 }
 
+// includes own x and y vals
+float Vector2::dotProduct(Vector2 vectors[])
+{
+    float size = sizeof(vectors) / sizeof(*vectors);
+    float r;
+
+    r = xValue * yValue;
+    for (int i = 0; i < size; i++) 
+    {
+        r += vectors[i].x() * vectors[i].y();
+    }
+
+    return r;
+}
+
 Vector2 Vector2::normalized()
 {
     float xNormal = xValue / magnitude();
     float yNormal = yValue / magnitude();
-    Vector2 r(xNormal, yNormal);;
-    return r;
+    Vector2 v(xNormal, yNormal);;
+    return v;
+}
+
+Vector2 Vector2::operator+(const Vector2& vectorToAdd) const
+{
+    Vector2 v(xValue + vectorToAdd.xValue, yValue + vectorToAdd.yValue);
+    return v;
+}
+
+Vector2& Vector2::operator+=(const Vector2& vectorToAdd)
+{
+    Vector2 v(xValue + vectorToAdd.xValue, yValue + vectorToAdd.yValue);
+    return v;
+}
+
+Vector2 Vector2::operator*(const Vector2& multiplyVal) const
+{
+    Vector2 v(xValue * multiplyVal.xValue, yValue * multiplyVal.yValue);
+    return v;
+}
+
+Vector2& Vector2::operator*=(const Vector2& multiplyVal)
+{
+    Vector2 v(xValue * multiplyVal.xValue, yValue * multiplyVal.yValue);
+    return v;
+}
+
+void Vector2::OverrideValues(float newX, float newY)
+{
+    xValue = newX;
+    yValue = newY;
 }
 
 Vector2::~Vector2()

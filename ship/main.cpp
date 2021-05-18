@@ -11,11 +11,12 @@ int main(int argc, char** argv)
     ship += 600;
     std::cout << "Load: " << ship.getLoad();
 
-    Vector2 position(2, 5);
-    std::cout << "X: " << position.x() << "\n";
-    std::cout << "Magnitude: " << position.magnitude() << "\n";
-    std::cout << "Square Magnitude: " << position.sqrMagnitude() << "\n";
-    std::cout << "Normalized x: " << position.normalized().x() << "\n";
+    Vector2 positionA(2, 5);
+    Vector2 positionB(1, 7);
+    std::cout << "X: " << positionA.x() << "\n";
+    std::cout << "Magnitude: " << positionA.magnitude() << "\n";
+    std::cout << "Square Magnitude: " << positionA.sqrMagnitude() << "\n";
+    std::cout << "Normalized x: " << positionA.normalized().x() << "\n";
 
     return 0;
 }

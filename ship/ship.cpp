@@ -16,9 +16,9 @@ void Ship::addLoad(int loadToAdd)
     load += loadToAdd;
 }
 
-Ship Ship::operator+(const int& laodToAdd) const
+Ship Ship::operator+(const int& loadToAdd) const
 {
-    Ship s(load + laodToAdd);
+    Ship s(load + loadToAdd);
     return s;
 }
 
