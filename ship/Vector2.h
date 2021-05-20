@@ -11,18 +11,24 @@ class Vector2
         float sqrMagnitude();
         float dotProduct(Vector2 vectors[]);
         float collisionDetection(Vector2 vectorA, Vector2 vectorB);
+        void OverrideValues(float newX, float newY);
         Vector2 normalized();
+
+        // vector2 param operators
         Vector2 operator+(const Vector2& vectorToAdd) const;
         Vector2& operator+=(const Vector2& vectorToAdd);
         Vector2 operator*(const Vector2& multiplyVal) const;
         Vector2& operator*=(const Vector2& multiplyVal);
-        void OverrideValues(float newX, float newY);
+
+        // float param operators
+        Vector2 operator+(const float& vectorToAdd) const;
+        Vector2& operator+=(const float& vectorToAdd);
+        Vector2 operator*(const float& multiplyVal) const;
+        Vector2& operator*=(const float& multiplyVal);
     private:
         float xValue;
         float yValue;
 };
 
 // TODO: make it more applicable
-// all operators with vector2 or single param
-// angles calculaten
-// collision detection
+// angle calculations

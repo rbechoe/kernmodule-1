@@ -7,9 +7,8 @@
 int main(int argc, char** argv)
 {
     Ship ship(1500);
-    //ship = 300 + ship;
     ship += 600;
-    std::cout << "Load: " << ship.getLoad();
+    std::cout << "Load: " << ship.getLoad() << "\n";
 
     Vector2 positionA(2, 5);
     Vector2 positionB(1, 7);
