@@ -4,12 +4,13 @@ class Vector2
 {
     public:
         Vector2(float newX, float newY);
+        Vector2() = default;
         ~Vector2();
         float x();
         float y();
         float magnitude();
         float sqrMagnitude();
-        float dotProduct(Vector2 vectors[]);
+        float dotProduct(Vector2 vectors[], int size);
         float collisionDetection(Vector2 vectorA, Vector2 vectorB);
         void OverrideValues(float newX, float newY);
         Vector2 normalized();

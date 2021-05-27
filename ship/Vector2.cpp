@@ -35,11 +35,9 @@ float Vector2::sqrMagnitude()
 }
 
 // get dot product from own vector2 + all params
-float Vector2::dotProduct(Vector2 vectors[])
+float Vector2::dotProduct(Vector2 vectors[], int size)
 {
-    float size = sizeof(vectors) / sizeof(*vectors);
     float r;
-
     r = xValue * yValue;
     for (int i = 0; i < size; i++) 
     {
@@ -59,6 +57,8 @@ float collisionDetection(Vector2 vectorA, Vector2 vectorB, float r1, float r2)
     if (r > 0) return 0; // no collision
     if (r == 0) return 1; // right on the edge
     if (r < 0) return 2; // collision
+
+    return 0;
 }
 
 // update x and y values with new values
@@ -88,8 +88,8 @@ Vector2 Vector2::operator+(const Vector2& vectorToAdd) const
 // add vector2 to current vector2
 Vector2& Vector2::operator+=(const Vector2& vectorToAdd)
 {
-    Vector2 v(xValue + vectorToAdd.xValue, yValue + vectorToAdd.yValue);
-    return v;
+    this->OverrideValues(xValue + vectorToAdd.xValue, yValue + vectorToAdd.yValue);
+    return *this;
 }
 
 // multiply vector2 to current vector2
@@ -102,8 +102,8 @@ Vector2 Vector2::operator*(const Vector2& multiplyVal) const
 // mutliply vector2 to current vector2
 Vector2& Vector2::operator*=(const Vector2& multiplyVal)
 {
-    Vector2 v(xValue * multiplyVal.xValue, yValue * multiplyVal.yValue);
-    return v;
+    this->OverrideValues(xValue * multiplyVal.xValue, yValue * multiplyVal.yValue);
+    return *this;
 }
 
 //------SINGLE PARAM OPERATORS-------
@@ -117,8 +117,8 @@ Vector2 Vector2::operator+(const float& addVal) const
 // add float to current vector2
 Vector2& Vector2::operator+=(const float& addVal)
 {
-    Vector2 v(xValue + addVal, yValue + addVal);
-    return v;
+    this->OverrideValues(xValue + addVal, yValue + addVal);
+    return *this;
 }
 
 // multiply float to current vector2
@@ -131,8 +131,8 @@ Vector2 Vector2::operator*(const float& multiplyVal) const
 // mutliply float to current vector2
 Vector2& Vector2::operator*=(const float& multiplyVal)
 {
-    Vector2 v(xValue * multiplyVal, yValue * multiplyVal);
-    return v;
+    this->OverrideValues(xValue * multiplyVal, yValue * multiplyVal);
+    return *this;
 }
 
 Vector2::~Vector2()

@@ -1,21 +1,48 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "ship.h"
 #include "Vector2.h"
-#include "ship.cpp"
-#include "Vector2.cpp"
+#include "player.h"
+#include "entity.h"
 
 int main(int argc, char** argv)
 {
-    Ship ship(1500);
-    ship += 600;
-    std::cout << "Load: " << ship.getLoad() << "\n";
+    int width = 640;
+    int height = 480;
+    Player p(width / 2.f, height, width, height);
 
-    Vector2 positionA(2, 5);
-    Vector2 positionB(1, 7);
-    std::cout << "X: " << positionA.x() << "\n";
-    std::cout << "Magnitude: " << positionA.magnitude() << "\n";
-    std::cout << "Square Magnitude: " << positionA.sqrMagnitude() << "\n";
-    std::cout << "Normalized x: " << positionA.normalized().x() << "\n";
+    sf::CircleShape player(p.shapeSize / 2.f);
+    player.setFillColor(sf::Color::Green);
+
+    sf::RenderWindow window(sf::VideoMode(width, height), "Uwu Invaz0rs");
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+            {
+                window.close();
+            }
+        }
+
+        // Move right
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        {
+            p.MoveRight();
+        }
+
+        // Move left
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        {
+            p.MoveLeft();
+        }
+
+        window.clear();
+        window.draw(player);
+        player.setPosition(p.GetPosition().x(), p.GetPosition().y());
+        window.display();
+    }
 
     return 0;
 }
