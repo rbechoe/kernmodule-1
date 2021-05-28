@@ -1,7 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include "ship.h"
-#include "Vector2.h"
+#include "vector2.h"
 #include "player.h"
 #include "entity.h"
 
