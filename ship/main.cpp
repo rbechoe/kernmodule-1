@@ -1,10 +1,14 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <chrono>
+#include <windows.h>
 #include "ship.h"
 #include "vector2.h"
 #include "player.h"
 #include "entity.h"
 #include "enemy.h"
+
+using namespace std::chrono;
 
 // make object pool with enemies
 // use counter for amount of active enemies
@@ -15,6 +19,12 @@ int main(int argc, char** argv)
     int width = 640;
     int height = 480;
 
+    // fps settings
+    int fps = 60;
+    unsigned long frameDelay = 1000 / fps;
+    unsigned long frameStart;
+    int frameTime;
+
     // enemies
     int enemyAmount = 3;
     int enemyMax = 10;
@@ -22,16 +32,20 @@ int main(int argc, char** argv)
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
     {
-        enemies.emplace_back(i * 20 + 100, -200 - i * 40, width, height);
-        enemies[i].shapeSize = 40 + i * 10;
-        enemies[i].movementSpeed = 1.f;
+        float size = 40 + i * 10;
+        enemies.emplace_back(rand() % width - size, -200 - i * 40 - size, width, height);
+        enemies[i].shapeSize = size;
+        enemies[i].movementSpeed = 10.f;
     }
     
     Player p(width / 2.f, height, width, height);
+    p.movementSpeed = 10.f;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Uwu Invaz0rs");
     while (window.isOpen())
     {
+        frameStart = duration_cast<milliseconds>(time_point_cast<milliseconds>(high_resolution_clock::now()).time_since_epoch()).count();
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -71,6 +85,12 @@ int main(int argc, char** argv)
         }
 
         window.display();
+
+        frameTime = duration_cast<milliseconds>(time_point_cast<milliseconds>(high_resolution_clock::now()).time_since_epoch()).count() - frameStart;
+        if (frameDelay > frameTime) 
+        {
+            Sleep(frameDelay - frameTime);
+        }
     }
 
     return 0;
