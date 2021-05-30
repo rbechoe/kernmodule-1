@@ -16,6 +16,22 @@ void Player::MoveRight()
     }
 }
 
+void Player::Update() 
+{
+    // Move right
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) || sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        MoveRight();
+    }
+    // Move left
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        MoveLeft();
+    }
+
+    UpdateMovement();
+}
+
 void Player::UpdateMovement()
 {    
     // render ship sprite based on acceleration

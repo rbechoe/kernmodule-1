@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include <SFML/Graphics.hpp>
 
 class Entity 
 {
@@ -17,5 +18,6 @@ class Entity
         void UpdatePosition(float newX, float newY);
         Vector2 GetPosition();
         Vector2 position;
+        sf::Color myColor;
     private: 
 };
