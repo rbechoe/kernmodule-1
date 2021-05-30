@@ -2,8 +2,11 @@
 
 Entity::Entity(float xPos, float yPos, int windowWidth, int windowHeight)
 {
-    movementSpeed = .5f;
+    horizontalSpeed = 5.f;
+    verticalSpeed = 5.f;
     shapeSize = 50.f;
+    force = 0.03f;
+    friction = 0.01f;
     this->windowWidth = windowWidth;
     this->windowHeight = windowHeight;
     this->position.OverrideValues(xPos, yPos - shapeSize);

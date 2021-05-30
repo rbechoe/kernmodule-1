@@ -4,8 +4,8 @@
 void Enemy::UpdateMovement()
 {
     // fall on y axis based on gravity
-    // bounce on x axis
-    UpdatePosition(position.x(), position.y() + movementSpeed);
+    // bounce on x axis by flipping x speed
+    UpdatePosition(position.x(), position.y() + verticalSpeed);
 
     if (position.y() >= windowHeight) 
     {

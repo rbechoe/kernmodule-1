@@ -8,8 +8,12 @@ class Entity
         Entity() = default;
         int windowWidth; 
         int windowHeight;
-        float movementSpeed;
+        float verticalSpeed;
+        float horizontalSpeed;
+        float acceleration;
         float shapeSize;
+        float force;
+        float friction;
         void UpdatePosition(float newX, float newY);
         Vector2 GetPosition();
         Vector2 position;

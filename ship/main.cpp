@@ -35,11 +35,12 @@ int main(int argc, char** argv)
         float size = 40 + i * 10;
         enemies.emplace_back(rand() % width - size, -200 - i * 40 - size, width, height);
         enemies[i].shapeSize = size;
-        enemies[i].movementSpeed = 10.f;
+        enemies[i].verticalSpeed = 10.f;
+        enemies[i].horizontalSpeed = 5.f;
     }
     
     Player p(width / 2.f, height, width, height);
-    p.movementSpeed = 10.f;
+    p.horizontalSpeed = 10.f;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Uwu Invaz0rs");
     while (window.isOpen())
@@ -65,6 +66,7 @@ int main(int argc, char** argv)
         {
             p.MoveLeft();
         }
+        p.UpdateMovement();
 
         window.clear();
 
