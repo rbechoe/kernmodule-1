@@ -5,6 +5,8 @@ using namespace std::chrono;
 GameManager::GameManager(Player& player, int width, int height)
 {
     p = player;
+    this->width = width;
+    this->height = height;
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
     {
@@ -46,5 +48,23 @@ void GameManager::Update(sf::RenderWindow& window)
     }
 
     // draw UI stuff - top layer
+    sf::RectangleShape topBar;
+    topBar.setSize(sf::Vector2f(width, 50));
+    topBar.setFillColor(sf::Color(50, 50, 50));
+    window.draw(topBar);
 
+    sf::Font font;
+    font.loadFromFile("arial.ttf");
+    std::string scr = "Score: " + score;
+    std::string lvs = "Lives: " + lives;
+    sf::Text scoreTxt(scr, font);
+    scoreTxt.setCharacterSize(24);
+    scoreTxt.setFillColor(sf::Color(150, 150, 150));
+    scoreTxt.setPosition(10, 10);
+    sf::Text livesTxt(lvs, font);
+    livesTxt.setCharacterSize(24);
+    livesTxt.setFillColor(sf::Color(150, 150, 150));
+    livesTxt.setPosition(width - 200, 10);
+    window.draw(scoreTxt);
+    window.draw(livesTxt);
 }
