@@ -33,6 +33,7 @@ void Enemy::UpdateMovement()
         float xpos = rand() % windowWidth - shapeSize;
         if (xpos < shapeSize) xpos = shapeSize;
         UpdatePosition(xpos, 0 - shapeSize);
+        died = true;
     }
 }
 

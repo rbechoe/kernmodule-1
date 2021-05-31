@@ -30,6 +30,3 @@ class Vector2
         float xValue;
         float yValue;
 };
-
-// TODO: make it more applicable
-// angle calculations

@@ -12,6 +12,7 @@ class GameManager
 {
     public:
         GameManager(Player& player, int width, int height);
+        GameManager() = default;
         Player p;
         int width;
         int height;
@@ -21,5 +22,6 @@ class GameManager
         int lives = 3;
         std::vector<Enemy> enemies;
         void Update(sf::RenderWindow& window);
+        void AddScore(int amount);
     private:
 };

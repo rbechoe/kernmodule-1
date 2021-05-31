@@ -1,5 +1,6 @@
 #include "manager.h"
 
+using namespace std;
 using namespace std::chrono;
 
 GameManager::GameManager(Player& player, int width, int height)
@@ -44,6 +45,11 @@ void GameManager::Update(sf::RenderWindow& window)
         enemies[i].ColorCycle();
         enemy.setFillColor(enemies[i].myColor);
         enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
+        if (enemies[i].died) 
+        {
+            enemies[i].died = false;
+            AddScore(3);
+        }
         window.draw(enemy);
     }
 
@@ -55,8 +61,8 @@ void GameManager::Update(sf::RenderWindow& window)
 
     sf::Font font;
     font.loadFromFile("arial.ttf");
-    std::string scr = "Score: " + score;
-    std::string lvs = "Lives: " + lives;
+    string scr = "Score: " + to_string(score);
+    string lvs = "Lives: " + to_string(lives);
     sf::Text scoreTxt(scr, font);
     scoreTxt.setCharacterSize(24);
     scoreTxt.setFillColor(sf::Color(150, 150, 150));
@@ -67,4 +73,9 @@ void GameManager::Update(sf::RenderWindow& window)
     livesTxt.setPosition(width - 200, 10);
     window.draw(scoreTxt);
     window.draw(livesTxt);
+}
+
+void GameManager::AddScore(int amount)
+{
+    score += amount;
 }
