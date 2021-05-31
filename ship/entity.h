@@ -9,6 +9,9 @@ class Entity
         Entity() = default;
         int windowWidth; 
         int windowHeight;
+        int red;
+        int green;
+        int blue;
         float verticalSpeed;
         float horizontalSpeed;
         float acceleration;
@@ -18,6 +21,5 @@ class Entity
         void UpdatePosition(float newX, float newY);
         Vector2 GetPosition();
         Vector2 position;
-        sf::Color myColor;
     private: 
 };
