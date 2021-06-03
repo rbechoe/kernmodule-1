@@ -12,7 +12,7 @@ GameManager::GameManager(Player& player, int width, int height)
     for (int i = 0; i < enemyMax; i++) 
     {
         float size = 40 + i * 3;
-        enemies.emplace_back(rand() % width - size, -200 - i * 40 - size, width, height);
+        enemies.emplace_back(rand() % width - size, -200 - i * height / enemyMax - size, width, height);
         enemies[i].Initialize(size);
     }
     p.horizontalSpeed = 10.f;

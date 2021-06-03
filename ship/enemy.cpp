@@ -5,10 +5,15 @@
 void Enemy::Initialize(float size)
 {
     verticalSpeed = 5.f;
-    horizontalSpeed = 5.f;
+    horizontalSpeed = 0.f;
     red = 255;
     green = rand() % 100;
     blue = rand() % 100;
+
+    int ran = rand() % 100;
+    if (ran > 50) incrementSpeed = true;
+    maxSpeed = .5f;
+    acceleration = 0.005f;
 
     int val = rand() % 80;
     if (val < 20) 
@@ -25,7 +30,7 @@ void Enemy::UpdateMovement()
 {
     // fall on y axis based on gravity
     // bounce on x axis by flipping x speed
-    UpdatePosition(position.x(), position.y() + verticalSpeed);
+    UpdatePosition(position.x() + horizontalSpeed, position.y() + verticalSpeed);
 
     if (position.y() >= windowHeight) 
     {
@@ -35,6 +40,40 @@ void Enemy::UpdateMovement()
         UpdatePosition(xpos, 0 - shapeSize);
         died = true;
     }
+
+    // check if enemy is out of bounds to inverse bool
+    if (position.x() > windowWidth - shapeSize) 
+    {
+        incrementSpeed = false;
+        force = 0;
+        horizontalSpeed = 0;
+    }
+    if (position.x() < 0) 
+    {
+        incrementSpeed = true;
+        force = 0;
+        horizontalSpeed = 0;
+    }
+    float constrainedX = position.x();
+    constrainedX = (constrainedX > windowWidth - shapeSize) ? windowWidth - shapeSize : constrainedX;
+    constrainedX = (constrainedX < 0) ? 0 : constrainedX;
+    UpdatePosition(constrainedX, position.y());
+
+    // TODO: calculate speed based on distance from position to border
+    if (incrementSpeed) 
+    {
+        // increase speed with accel factor
+        if (force < maxSpeed) force += acceleration;
+    }
+    else 
+    {
+        // decrease speed with accel factor
+        if (force > -maxSpeed) force -= acceleration;
+    }
+    // clamp force
+    if (force > maxSpeed) force = maxSpeed;
+    if (force < -maxSpeed) force = -maxSpeed;
+    horizontalSpeed += force;
 }
 
 // cycle through colors

@@ -10,7 +10,9 @@ class Enemy : public Entity
         void ColorCycle();
         sf::Color myColor;
         int colorState;
+        float maxSpeed;
         bool died;
         bool killedPlayer;
+        bool incrementSpeed;
     private: 
 };

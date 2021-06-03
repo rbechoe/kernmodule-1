@@ -16,10 +16,10 @@ class GameManager
         Player p;
         int width;
         int height;
-        int enemyAmount = 10;
-        int enemyMax = 10;
+        int enemyAmount = 1; // used to increment over time
+        int enemyMax = 5;
         int score = 0;
-        int lives = 3;
+        int lives = 10;
         std::vector<Enemy> enemies;
         void Update(sf::RenderWindow& window);
         void AddScore(int amount);
