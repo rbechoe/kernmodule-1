@@ -23,15 +23,21 @@ float Vector2::y()
 // get magnitude
 float Vector2::magnitude()
 {
-    return sqrt(sqrMagnitude());
+    return sqrtMagnitude(xValue, yValue);
 }
 
 // get square magnitude
-float Vector2::sqrMagnitude()
+float Vector2::sqrMagnitude(float x, float y)
 {
-    float sqrX = pow(xValue, 2);
-    float sqrY = pow(yValue, 2);
+    float sqrX = pow(x, 2);
+    float sqrY = pow(y, 2);
     return (sqrX + sqrY);
+}
+
+// get square root
+float Vector2::sqrtMagnitude(float x, float y)
+{
+    return sqrt(sqrMagnitude(x, y));
 }
 
 // get dot product from own vector2 + all params
@@ -48,17 +54,15 @@ float Vector2::dotProduct(Vector2 vectors[], int size)
 }
 
 // check for collision between 2 vectors 
-float collisionDetection(Vector2 vectorA, Vector2 vectorB, float r1, float r2)
+bool Vector2::collisionDetection(Vector2 vectorA, Vector2 vectorB, float r1, float r2)
 {
     Vector2 v((vectorB.x() - vectorA.x()), (vectorB.y() - vectorA.y()));
-    float f(sqrt(pow(v.x(), 2) + pow(v.y(), 2)));
+    float f(sqrtMagnitude(v.x(), v.y()));
     float r(r1 - r2 - f);
-    
-    if (r > 0) return 0; // no collision
-    if (r == 0) return 1; // right on the edge
-    if (r < 0) return 2; // collision
 
-    return 0;
+    // r > 0 is no collision, r == 0 is right on the edge, r < 0 is collision
+    if (r < 0) return true;
+    return false;
 }
 
 // update x and y values with new values

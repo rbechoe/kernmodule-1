@@ -14,6 +14,7 @@ class GameManager
         GameManager(Player& player, int width, int height);
         GameManager() = default;
         Player p;
+        Vector2 colCheck;
         int width;
         int height;
         int enemyAmount = 1; // used to increment over time
@@ -23,5 +24,6 @@ class GameManager
         std::vector<Enemy> enemies;
         void Update(sf::RenderWindow& window);
         void AddScore(int amount);
+        void LoseLives();
     private:
 };

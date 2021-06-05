@@ -8,6 +8,7 @@ GameManager::GameManager(Player& player, int width, int height)
     p = player;
     this->width = width;
     this->height = height;
+    colCheck.OverrideValues(1, 1);
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
     {
@@ -45,10 +46,20 @@ void GameManager::Update(sf::RenderWindow& window)
         enemies[i].ColorCycle();
         enemy.setFillColor(enemies[i].myColor);
         enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
+        
+        // check if enemy died
         if (enemies[i].died) 
         {
             enemies[i].died = false;
             AddScore(3);
+        }
+
+        // check if player died
+        bool hasCol = colCheck.collisionDetection(enemies[i].GetPosition(), p.GetPosition(), enemies[i].shapeSize, p.shapeSize);
+        if (hasCol == true) 
+        {
+            enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
+            LoseLives();
         }
         window.draw(enemy);
     }
@@ -78,4 +89,13 @@ void GameManager::Update(sf::RenderWindow& window)
 void GameManager::AddScore(int amount)
 {
     score += amount;
+}
+
+void GameManager::LoseLives()
+{
+    lives--;
+    if (lives <= 0)  
+    {
+        // game over GG
+    }
 }
