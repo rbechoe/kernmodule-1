@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "Vector2.h"
 
 // initialize vector 2 with x and y values
@@ -58,7 +59,7 @@ bool Vector2::collisionDetection(Vector2 vectorA, Vector2 vectorB, float r1, flo
 {
     Vector2 v((vectorB.x() - vectorA.x()), (vectorB.y() - vectorA.y()));
     float f(sqrtMagnitude(v.x(), v.y()));
-    float r(r1 - r2 - f);
+    float r(f - (r1 / 2.f) - (r2 / 2.f));
 
     // r > 0 is no collision, r == 0 is right on the edge, r < 0 is collision
     if (r < 0) return true;
