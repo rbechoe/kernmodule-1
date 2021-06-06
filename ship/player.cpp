@@ -29,6 +29,8 @@ void Player::Update()
         MoveLeft();
     }
 
+    // TODO space to shoot
+
     UpdateMovement();
 }
 

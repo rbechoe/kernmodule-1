@@ -35,14 +35,14 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // start game
         sf::Font font;
-        font.loadFromFile("arial.ttf");
-        string str = "Try to avoid the enemies \n";
-        str += "Score at least " + to_string(winTreshold) + " points to win\n";
+        font.loadFromFile("retrofont.ttf");
+        string str = "Welcome trooper!\nDodge and kill the enemies\n";
+        str += "You win at " + to_string(winTreshold) + "+ points\n";
         str += "Use A and D or arrow keys for movement\n";
         str += "Press spacebar to start game\n";
         str += "Press escape to quit the game\n";
         sf::Text scoreTxt(str, font);
-        scoreTxt.setCharacterSize(24);
+        scoreTxt.setCharacterSize(18);
         scoreTxt.setFillColor(sf::Color(150, 150, 150));
         scoreTxt.setPosition(25, 25);
         window.draw(scoreTxt);
@@ -93,7 +93,7 @@ void GameManager::Update(sf::RenderWindow& window)
         window.draw(topBar);
 
         sf::Font font;
-        font.loadFromFile("arial.ttf");
+        font.loadFromFile("retrofont.ttf");
         string scr = "Score: " + to_string(score);
         string lvs = "Lives: " + to_string(lives);
         sf::Text scoreTxt(scr, font);
@@ -111,7 +111,7 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // victory
         sf::Font font;
-        font.loadFromFile("arial.ttf");
+        font.loadFromFile("retrofont.ttf");
         string str = "Congratulations!!\nYou scored " + to_string(score) + " points!!\n";
         str += "Press escape to quit.\n";
         sf::Text scoreTxt(str, font);
@@ -124,7 +124,7 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // lost
         sf::Font font;
-        font.loadFromFile("arial.ttf");
+        font.loadFromFile("retrofont.ttf");
         string str = "You lost!\nYou only scored " + to_string(score) + " points.\n";
         str += "Press escape to quit.\n";
         sf::Text scoreTxt(str, font);

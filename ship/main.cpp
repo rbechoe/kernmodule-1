@@ -10,7 +10,7 @@ using namespace std::chrono;
 // window settings
 int width = 640;
 int height = 480;
-sf::RenderWindow window(sf::VideoMode(width, height), "UwU Invaz0rs");
+sf::RenderWindow window(sf::VideoMode(width, height), "Space Invaders");
 // fps settings
 int fps = 240;
 unsigned long frameDelay = 1000 / fps;
