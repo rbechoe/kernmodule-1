@@ -31,59 +31,108 @@ void GameManager::Update(sf::RenderWindow& window)
         }
     }
 
-    // player - bottom layer
-    p.Update();
-    sf::CircleShape player(p.shapeSize / 2.f);
-    player.setFillColor(sf::Color::Green);
-    player.setPosition(p.GetPosition().x(), p.GetPosition().y());
-    window.draw(player);
-
-    // enemies - middle layer
-    for (int i = 0; i < enemyAmount; i++) 
+    if (gameState == 0)
     {
-        sf::CircleShape enemy(enemies[i].shapeSize / 2.f);
-        enemies[i].UpdateMovement();
-        enemies[i].ColorCycle();
-        enemy.setFillColor(enemies[i].myColor);
-        enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
-        
-        // check if enemy died
-        if (enemies[i].died) 
+        // start game
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        string str = "Try to avoid the enemies \n";
+        str += "Score at least " + to_string(winTreshold) + " points to win\n";
+        str += "Use A and D or arrow keys for movement\n";
+        str += "Press spacebar to start game\n";
+        str += "Press escape to quit the game\n";
+        sf::Text scoreTxt(str, font);
+        scoreTxt.setCharacterSize(24);
+        scoreTxt.setFillColor(sf::Color(150, 150, 150));
+        scoreTxt.setPosition(25, 25);
+        window.draw(scoreTxt);
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
-            enemies[i].died = false;
-            AddScore(3);
+            gameState = 1;
         }
-
-        // check if player died
-        bool hasCol = colCheck.collisionDetection(enemies[i].GetPosition(), p.GetPosition(), enemies[i].shapeSize, p.shapeSize);
-        if (hasCol == true) 
-        {
-            enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
-            LoseLives();
-        }
-        window.draw(enemy);
     }
+    else if (gameState == 1) 
+    {
+        // player - bottom layer
+        p.Update();
+        sf::CircleShape player(p.shapeSize / 2.f);
+        player.setFillColor(sf::Color::Green);
+        player.setPosition(p.GetPosition().x(), p.GetPosition().y());
+        window.draw(player);
 
-    // draw UI stuff - top layer
-    sf::RectangleShape topBar;
-    topBar.setSize(sf::Vector2f(width, 50));
-    topBar.setFillColor(sf::Color(50, 50, 50));
-    window.draw(topBar);
+        // enemies - middle layer
+        for (int i = 0; i < enemyAmount; i++) 
+        {
+            sf::CircleShape enemy(enemies[i].shapeSize / 2.f);
+            enemies[i].UpdateMovement();
+            enemies[i].ColorCycle();
+            enemy.setFillColor(enemies[i].myColor);
+            enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
+            
+            // check if enemy died
+            if (enemies[i].died) 
+            {
+                enemies[i].died = false;
+                AddScore(3);
+            }
 
-    sf::Font font;
-    font.loadFromFile("arial.ttf");
-    string scr = "Score: " + to_string(score);
-    string lvs = "Lives: " + to_string(lives);
-    sf::Text scoreTxt(scr, font);
-    scoreTxt.setCharacterSize(24);
-    scoreTxt.setFillColor(sf::Color(150, 150, 150));
-    scoreTxt.setPosition(10, 10);
-    sf::Text livesTxt(lvs, font);
-    livesTxt.setCharacterSize(24);
-    livesTxt.setFillColor(sf::Color(150, 150, 150));
-    livesTxt.setPosition(width - 200, 10);
-    window.draw(scoreTxt);
-    window.draw(livesTxt);
+            // check if player died
+            bool hasCol = colCheck.collisionDetection(enemies[i].GetPosition(), p.GetPosition(), enemies[i].shapeSize, p.shapeSize);
+            if (hasCol == true) 
+            {
+                enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
+                LoseLives();
+            }
+            window.draw(enemy);
+        }
+
+        // draw UI stuff - top layer
+        sf::RectangleShape topBar;
+        topBar.setSize(sf::Vector2f(width, 50));
+        topBar.setFillColor(sf::Color(50, 50, 50));
+        window.draw(topBar);
+
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        string scr = "Score: " + to_string(score);
+        string lvs = "Lives: " + to_string(lives);
+        sf::Text scoreTxt(scr, font);
+        scoreTxt.setCharacterSize(24);
+        scoreTxt.setFillColor(sf::Color(150, 150, 150));
+        scoreTxt.setPosition(10, 10);
+        sf::Text livesTxt(lvs, font);
+        livesTxt.setCharacterSize(24);
+        livesTxt.setFillColor(sf::Color(150, 150, 150));
+        livesTxt.setPosition(width - 200, 10);
+        window.draw(scoreTxt);
+        window.draw(livesTxt);
+    }
+    else if (gameState == 2) 
+    {
+        // victory
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        string str = "Congratulations!!\nYou scored " + to_string(score) + " points!!\n";
+        str += "Press escape to quit.\n";
+        sf::Text scoreTxt(str, font);
+        scoreTxt.setCharacterSize(24);
+        scoreTxt.setFillColor(sf::Color(150, 150, 150));
+        scoreTxt.setPosition(25, 25);
+        window.draw(scoreTxt);
+    }
+    else if (gameState == 3) 
+    {
+        // lost
+        sf::Font font;
+        font.loadFromFile("arial.ttf");
+        string str = "You lost!\nYou only scored " + to_string(score) + " points.\n";
+        str += "Press escape to quit.\n";
+        sf::Text scoreTxt(str, font);
+        scoreTxt.setCharacterSize(24);
+        scoreTxt.setFillColor(sf::Color(150, 150, 150));
+        scoreTxt.setPosition(25, 25);
+        window.draw(scoreTxt);
+    }
 }
 
 void GameManager::AddScore(int amount)
@@ -94,8 +143,5 @@ void GameManager::AddScore(int amount)
 void GameManager::LoseLives()
 {
     lives--;
-    if (lives <= 0)  
-    {
-        // game over GG
-    }
+    if (lives <= 0) gameState = (score > winTreshold) ? 2 : 3;
 }
