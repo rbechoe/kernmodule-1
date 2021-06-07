@@ -12,7 +12,6 @@ class Enemy : public Entity
         int colorState;
         float maxSpeed;
         bool died;
-        bool killedPlayer;
         bool incrementSpeed;
     private: 
 };

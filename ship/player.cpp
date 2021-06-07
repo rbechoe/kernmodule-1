@@ -29,13 +29,6 @@ void Player::Update()
         MoveLeft();
     }
 
-    // TODO space to shoot
-    // make bullet pool
-    // when bullet active travel up
-    // once bullet collides or out of bounds go inactive
-    // award points upon death of enemy
-
-
     UpdateMovement();
 }
 

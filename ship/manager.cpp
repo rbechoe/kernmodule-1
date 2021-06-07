@@ -16,6 +16,11 @@ GameManager::GameManager(Player& player, int width, int height)
     pTextLeft.loadFromFile("resource/player_left.png");
     pTextRight.loadFromFile("resource/player_right.png");
     pTextMid.loadFromFile("resource/player_normal.png");
+    // load audio files
+    enemyHit.openFromFile("resource/enemy-hit.wav");
+    music.openFromFile("resource/Joshua-McLean-Mountain-Trials.wav");
+    playerShoot.openFromFile("resource/player-gun.wav");
+    playerHit.openFromFile("resource/player-hit.wav");
     // reserve enemy data
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
@@ -24,6 +29,17 @@ GameManager::GameManager(Player& player, int width, int height)
         enemies.emplace_back(rand() % width - size, -200 - i * height / enemyMax - size, width, height);
         enemies[i].Initialize(size);
     }
+    // reserve bullets
+    bullets.reserve(bulletAmount);
+    for (int i = 0; i < bulletAmount; i++)
+    {
+        bullets.emplace_back(-width, -height, width, height);
+        bullets[i].shapeSize = 10;
+        bullets[i].verticalSpeed = 10;
+    }
+
+    music.play();
+    music.setLoop(true);
 }
 
 // update function called every frame
@@ -71,6 +87,42 @@ void GameManager::Update(sf::RenderWindow& window)
         player.setScale(0.1f, 0.1f);
         window.draw(player);
 
+        // bullet logic
+        if (shootCd > 0) shootCd--;
+        if (shootCd <= 0 && sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) 
+        {
+            shootCd = 20;
+            bullets[curBullet].used = true;
+            bullets[curBullet].UpdatePosition(p.position.x() + (p.shapeSize / 2) - (bullets[curBullet].shapeSize / 2), p.position.y());
+            curBullet++;
+            if (curBullet > bulletAmount - 1) curBullet = 0;
+            playerHit.play();
+        }
+        for (int i = 0; i < bulletAmount; i++)
+        {
+            if (bullets[i].used == true)
+            {
+                bullets[i].UpdateMovement();
+                sf::CircleShape bul(bullets[i].shapeSize / 2);
+                bul.setFillColor(sf::Color::Green);
+                bul.setPosition(bullets[i].position.x(), bullets[i].position.y());
+                window.draw(bul);
+
+                for (int j = 0; j < enemyAmount; j++)
+                {
+                    bool hitEnemy = colCheck.collisionDetection(enemies[j].GetPosition(), bullets[i].GetPosition(), enemies[j].shapeSize, bullets[i].shapeSize);
+                    if (hitEnemy)
+                    {
+                        enemies[j].UpdatePosition(enemies[j].GetPosition().x(), 0 - enemies[j].shapeSize);
+                        AddScore(3);
+                        bullets[i].used = false;
+                        bullets[i].UpdatePosition(-width, -height);
+                        enemyHit.play();
+                    }
+                }
+            }
+        }
+
         // enemies - middle layer
         for (int i = 0; i < enemyAmount; i++) 
         {
@@ -87,7 +139,7 @@ void GameManager::Update(sf::RenderWindow& window)
             if (enemies[i].died) 
             {
                 enemies[i].died = false;
-                AddScore(3);
+                AddScore(1);
             }
 
             // check if player died
@@ -95,6 +147,7 @@ void GameManager::Update(sf::RenderWindow& window)
             if (hasCol == true) 
             {
                 enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
+                playerHit.play();
                 LoseLives();
             }
             window.draw(enemy);
