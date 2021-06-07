@@ -37,9 +37,6 @@ GameManager::GameManager(Player& player, int width, int height)
         bullets[i].shapeSize = 10;
         bullets[i].verticalSpeed = 10;
     }
-
-    music.play();
-    music.setLoop(true);
 }
 
 // update function called every frame
@@ -73,6 +70,8 @@ void GameManager::Update(sf::RenderWindow& window)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             gameState = 1;
+            music.play();
+            music.setLoop(true);
         }
     }
     else if (gameState == 1) 
@@ -96,7 +95,8 @@ void GameManager::Update(sf::RenderWindow& window)
             bullets[curBullet].UpdatePosition(p.position.x() + (p.shapeSize / 2) - (bullets[curBullet].shapeSize / 2), p.position.y());
             curBullet++;
             if (curBullet > bulletAmount - 1) curBullet = 0;
-            playerHit.play();
+            playerShoot.stop();
+            playerShoot.play();
         }
         for (int i = 0; i < bulletAmount; i++)
         {
@@ -117,6 +117,7 @@ void GameManager::Update(sf::RenderWindow& window)
                         AddScore(3);
                         bullets[i].used = false;
                         bullets[i].UpdatePosition(-width, -height);
+                        enemyHit.stop();
                         enemyHit.play();
                     }
                 }
@@ -147,6 +148,7 @@ void GameManager::Update(sf::RenderWindow& window)
             if (hasCol == true) 
             {
                 enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
+                playerHit.stop();
                 playerHit.play();
                 LoseLives();
             }
