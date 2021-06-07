@@ -76,7 +76,7 @@ void GameManager::Update(sf::RenderWindow& window)
     }
     else if (gameState == 1) 
     {
-        // player - bottom layer
+        // player logic
         p.Update();
         sf::Sprite player;
         player.setPosition(p.GetPosition().x(), p.GetPosition().y());
@@ -124,7 +124,7 @@ void GameManager::Update(sf::RenderWindow& window)
             }
         }
 
-        // enemies - middle layer
+        // enemy logic
         for (int i = 0; i < enemyAmount; i++) 
         {
             enemies[i].UpdateMovement();
@@ -155,7 +155,7 @@ void GameManager::Update(sf::RenderWindow& window)
             window.draw(enemy);
         }
 
-        // draw UI stuff - top layer
+        // HUD
         sf::RectangleShape topBar;
         topBar.setSize(sf::Vector2f(width, 50));
         topBar.setFillColor(sf::Color(50, 50, 50));

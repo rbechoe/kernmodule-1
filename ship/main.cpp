@@ -1,6 +1,4 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
-#include <chrono>
 #include <windows.h>
 #include "manager.h"
 #include "player.h"
