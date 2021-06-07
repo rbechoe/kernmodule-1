@@ -27,5 +27,9 @@ class GameManager
         void Update(sf::RenderWindow& window);
         void AddScore(int amount);
         void LoseLives();
+        sf::Texture eText;
+        sf::Texture pTextLeft;
+        sf::Texture pTextRight;
+        sf::Texture pTextMid;
     private:
 };

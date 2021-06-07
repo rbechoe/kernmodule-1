@@ -5,10 +5,18 @@ using namespace std::chrono;
 
 GameManager::GameManager(Player& player, int width, int height)
 {
+    // set basics
     p = player;
+    p.horizontalSpeed = 10.f;
     this->width = width;
     this->height = height;
     colCheck.OverrideValues(1, 1);
+    // load textures
+    eText.loadFromFile("resource/enemy.png");
+    pTextLeft.loadFromFile("resource/player_left.png");
+    pTextRight.loadFromFile("resource/player_right.png");
+    pTextMid.loadFromFile("resource/player_normal.png");
+    // reserve enemy data
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
     {
@@ -16,7 +24,6 @@ GameManager::GameManager(Player& player, int width, int height)
         enemies.emplace_back(rand() % width - size, -200 - i * height / enemyMax - size, width, height);
         enemies[i].Initialize(size);
     }
-    p.horizontalSpeed = 10.f;
 }
 
 // update function called every frame
@@ -35,12 +42,13 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // start game
         sf::Font font;
-        font.loadFromFile("retrofont.ttf");
-        string str = "Welcome trooper!\nDodge and kill the enemies\n";
-        str += "You win at " + to_string(winTreshold) + "+ points\n";
-        str += "Use A and D or arrow keys for movement\n";
+        font.loadFromFile("resource/retrofont.ttf");
+        string str = "Welcome trooper\n";
+        str += "Dodge and kill the enemies\n";
+        str += "You win at " + to_string(winTreshold) + " points\n";
+        str += "Use A and D or arrow keys to move\n";
         str += "Press spacebar to start game\n";
-        str += "Press escape to quit the game\n";
+        str += "Press escape to end game\n";
         sf::Text scoreTxt(str, font);
         scoreTxt.setCharacterSize(18);
         scoreTxt.setFillColor(sf::Color(150, 150, 150));
@@ -55,20 +63,26 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // player - bottom layer
         p.Update();
-        sf::CircleShape player(p.shapeSize / 2.f);
-        player.setFillColor(sf::Color::Green);
+        sf::Sprite player;
         player.setPosition(p.GetPosition().x(), p.GetPosition().y());
+        if (p.acceleration > 0) player.setTexture(pTextRight);
+        else if (p.acceleration < 0) player.setTexture(pTextLeft);
+        else player.setTexture(pTextMid);
+        player.setScale(0.1f, 0.1f);
         window.draw(player);
 
         // enemies - middle layer
         for (int i = 0; i < enemyAmount; i++) 
         {
-            sf::CircleShape enemy(enemies[i].shapeSize / 2.f);
             enemies[i].UpdateMovement();
             enemies[i].ColorCycle();
-            enemy.setFillColor(enemies[i].myColor);
-            enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
             
+            sf::Sprite enemy;
+            enemy.setTexture(eText);
+            enemy.setPosition(enemies[i].GetPosition().x(), enemies[i].GetPosition().y());
+            enemy.setColor(enemies[i].myColor);
+            enemy.setScale(0.1f, 0.1f);
+
             // check if enemy died
             if (enemies[i].died) 
             {
@@ -93,9 +107,9 @@ void GameManager::Update(sf::RenderWindow& window)
         window.draw(topBar);
 
         sf::Font font;
-        font.loadFromFile("retrofont.ttf");
-        string scr = "Score: " + to_string(score);
-        string lvs = "Lives: " + to_string(lives);
+        font.loadFromFile("resource/retrofont.ttf");
+        string scr = "Score " + to_string(score);
+        string lvs = "Lives " + to_string(lives);
         sf::Text scoreTxt(scr, font);
         scoreTxt.setCharacterSize(24);
         scoreTxt.setFillColor(sf::Color(150, 150, 150));
@@ -111,9 +125,10 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // victory
         sf::Font font;
-        font.loadFromFile("retrofont.ttf");
-        string str = "Congratulations!!\nYou scored " + to_string(score) + " points!!\n";
-        str += "Press escape to quit.\n";
+        font.loadFromFile("resource/retrofont.ttf");
+        string str = "Congratulations\n"; 
+        str += "You scored " + to_string(score) + " points\n";
+        str += "Press escape to end game\n";
         sf::Text scoreTxt(str, font);
         scoreTxt.setCharacterSize(24);
         scoreTxt.setFillColor(sf::Color(150, 150, 150));
@@ -124,9 +139,10 @@ void GameManager::Update(sf::RenderWindow& window)
     {
         // lost
         sf::Font font;
-        font.loadFromFile("retrofont.ttf");
-        string str = "You lost!\nYou only scored " + to_string(score) + " points.\n";
-        str += "Press escape to quit.\n";
+        font.loadFromFile("resource/retrofont.ttf");
+        string str = "You lost\n";
+        str += "You only scored " + to_string(score) + " points\n";
+        str += "Press escape to end game\n";
         sf::Text scoreTxt(str, font);
         scoreTxt.setCharacterSize(24);
         scoreTxt.setFillColor(sf::Color(150, 150, 150));
