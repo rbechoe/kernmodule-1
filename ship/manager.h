@@ -29,6 +29,7 @@ class GameManager
         int gameState = 0; // 0 start screen, 1 game screen, 2 win screen, 3 lose screen
         int winTreshold = 50;
         int shootCd = 0;
+        float backgroundPos;
         std::vector<Enemy> enemies;
         std::vector<Bullet> bullets;
         void Update(sf::RenderWindow& window);
@@ -38,6 +39,7 @@ class GameManager
         sf::Texture pTextLeft;
         sf::Texture pTextRight;
         sf::Texture pTextMid;
+        sf::Texture background;
         sf::Music* enemyHit;
         sf::Music* music;
         sf::Music* playerShoot;

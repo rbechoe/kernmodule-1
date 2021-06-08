@@ -16,6 +16,7 @@ GameManager::GameManager(Player& player, int width, int height)
     pTextLeft.loadFromFile("resource/player_left.png");
     pTextRight.loadFromFile("resource/player_right.png");
     pTextMid.loadFromFile("resource/player_normal.png");
+    background.loadFromFile("resource/space.jpg");
     // load audio files
     enemyHit = new sf::Music();
     music = new sf::Music();
@@ -80,15 +81,23 @@ void GameManager::Update(sf::RenderWindow& window)
     }
     else if (gameState == 1) 
     {
+        // background
+        sf::Sprite bkgndSprite;
+        bkgndSprite.setTexture(background);
+        backgroundPos += 1.f;
+        if (backgroundPos > 480) backgroundPos = 0;
+        bkgndSprite.setPosition(0, backgroundPos - 480);
+        window.draw(bkgndSprite);
+
         // player logic
         p.Update();
-        sf::Sprite player;
-        player.setPosition(p.GetPosition().x(), p.GetPosition().y());
-        if (p.acceleration > 0) player.setTexture(pTextRight);
-        else if (p.acceleration < 0) player.setTexture(pTextLeft);
-        else player.setTexture(pTextMid);
-        player.setScale(0.1f, 0.1f);
-        window.draw(player);
+        sf::Sprite playerSprite;
+        playerSprite.setPosition(p.GetPosition().x(), p.GetPosition().y());
+        if (p.acceleration > 0) playerSprite.setTexture(pTextRight);
+        else if (p.acceleration < 0) playerSprite.setTexture(pTextLeft);
+        else playerSprite.setTexture(pTextMid);
+        playerSprite.setScale(0.1f, 0.1f);
+        window.draw(playerSprite);
 
         // bullet logic
         if (shootCd > 0) shootCd--;
