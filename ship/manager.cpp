@@ -81,7 +81,6 @@ void GameManager::Update(sf::RenderWindow& window)
     else if (gameState == 1) 
     {
         // background
-        sf::Sprite bkgndSprite;
         bkgndSprite.setTexture(background);
         backgroundPos += 1.f;
         if (backgroundPos > 480) backgroundPos = 0;
@@ -90,7 +89,6 @@ void GameManager::Update(sf::RenderWindow& window)
 
         // player logic
         p.Update();
-        sf::Sprite playerSprite;
         playerSprite.setPosition(p.GetPosition().x(), p.GetPosition().y());
         if (p.acceleration > 0) playerSprite.setTexture(pTextRight);
         else if (p.acceleration < 0) playerSprite.setTexture(pTextLeft);

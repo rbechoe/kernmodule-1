@@ -40,6 +40,8 @@ class GameManager
         sf::Texture pTextMid;
         sf::Texture background;
         sf::Font font;
+        sf::Sprite playerSprite;
+        sf::Sprite bkgndSprite;
         sf::Music* enemyHit;
         sf::Music* music;
         sf::Music* playerShoot;
