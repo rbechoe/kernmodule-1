@@ -17,10 +17,14 @@ GameManager::GameManager(Player& player, int width, int height)
     pTextRight.loadFromFile("resource/player_right.png");
     pTextMid.loadFromFile("resource/player_normal.png");
     // load audio files
-    enemyHit.openFromFile("resource/enemy-hit.wav");
-    music.openFromFile("resource/Joshua-McLean-Mountain-Trials.wav");
-    playerShoot.openFromFile("resource/player-gun.wav");
-    playerHit.openFromFile("resource/player-hit.wav");
+    enemyHit = new sf::Music();
+    music = new sf::Music();
+    playerShoot = new sf::Music();
+    playerHit = new sf::Music();
+    enemyHit->openFromFile("resource/enemy-hit.wav");
+    music->openFromFile("resource/Joshua-McLean-Mountain-Trials.wav");
+    playerShoot->openFromFile("resource/player-gun.wav");
+    playerHit->openFromFile("resource/player-hit.wav");
     // reserve enemy data
     enemies.reserve(enemyMax);
     for (int i = 0; i < enemyMax; i++) 
@@ -70,8 +74,8 @@ void GameManager::Update(sf::RenderWindow& window)
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
         {
             gameState = 1;
-            music.play();
-            music.setLoop(true);
+            music->play();
+            music->setLoop(true);
         }
     }
     else if (gameState == 1) 
@@ -95,8 +99,8 @@ void GameManager::Update(sf::RenderWindow& window)
             bullets[curBullet].UpdatePosition(p.position.x() + (p.shapeSize / 2) - (bullets[curBullet].shapeSize / 2), p.position.y());
             curBullet++;
             if (curBullet > bulletAmount - 1) curBullet = 0;
-            playerShoot.stop();
-            playerShoot.play();
+            playerShoot->stop();
+            playerShoot->play();
         }
         for (int i = 0; i < bulletAmount; i++)
         {
@@ -117,8 +121,8 @@ void GameManager::Update(sf::RenderWindow& window)
                         AddScore(3);
                         bullets[i].used = false;
                         bullets[i].UpdatePosition(-width, -height);
-                        enemyHit.stop();
-                        enemyHit.play();
+                        enemyHit->stop();
+                        enemyHit->play();
                     }
                 }
             }
@@ -148,8 +152,8 @@ void GameManager::Update(sf::RenderWindow& window)
             if (hasCol == true) 
             {
                 enemies[i].UpdatePosition(enemies[i].GetPosition().x(), 0 - enemies[i].shapeSize);
-                playerHit.stop();
-                playerHit.play();
+                playerHit->stop();
+                playerHit->play();
                 LoseLives();
             }
             window.draw(enemy);
@@ -215,4 +219,12 @@ void GameManager::LoseLives()
 {
     lives--;
     if (lives <= 0) gameState = (score > winTreshold) ? 2 : 3;
+}
+
+GameManager::~GameManager()
+{
+    delete(enemyHit);
+    delete(music);
+    delete(playerShoot);
+    delete(playerHit);
 }

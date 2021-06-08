@@ -15,6 +15,7 @@ class GameManager
     public:
         GameManager(Player& player, int width, int height);
         GameManager() = default;
+        ~GameManager();
         Player p;
         Vector2 colCheck;
         int width;
@@ -37,9 +38,9 @@ class GameManager
         sf::Texture pTextLeft;
         sf::Texture pTextRight;
         sf::Texture pTextMid;
-        sf::Music enemyHit;
-        sf::Music music;
-        sf::Music playerShoot;
-        sf::Music playerHit;
+        sf::Music* enemyHit;
+        sf::Music* music;
+        sf::Music* playerShoot;
+        sf::Music* playerHit;
     private:
 };
