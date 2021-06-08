@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <chrono>
-#include "ship.h"
 #include "vector2.h"
 #include "player.h"
 #include "entity.h"
@@ -40,6 +39,7 @@ class GameManager
         sf::Texture pTextRight;
         sf::Texture pTextMid;
         sf::Texture background;
+        sf::Font font;
         sf::Music* enemyHit;
         sf::Music* music;
         sf::Music* playerShoot;

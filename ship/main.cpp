@@ -8,7 +8,7 @@ using namespace std::chrono;
 // window settings
 int width = 640;
 int height = 480;
-sf::RenderWindow window(sf::VideoMode(width, height), "Space Invaders");
+sf::RenderWindow window(sf::VideoMode(width, height), "PloopInvaders");
 // fps settings
 int fps = 30;
 int frameCount = 0;

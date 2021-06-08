@@ -17,6 +17,8 @@ GameManager::GameManager(Player& player, int width, int height)
     pTextRight.loadFromFile("resource/player_right.png");
     pTextMid.loadFromFile("resource/player_normal.png");
     background.loadFromFile("resource/space.jpg");
+    // load font
+    font.loadFromFile("resource/retrofont.ttf");
     // load audio files
     enemyHit = new sf::Music();
     music = new sf::Music();
@@ -58,9 +60,6 @@ void GameManager::Update(sf::RenderWindow& window)
 
     if (gameState == 0)
     {
-        // start game
-        sf::Font font;
-        font.loadFromFile("resource/retrofont.ttf");
         string str = "Welcome trooper\n";
         str += "Dodge and kill the enemies\n";
         str += "You win at " + to_string(winTreshold) + " points\n";
@@ -174,8 +173,6 @@ void GameManager::Update(sf::RenderWindow& window)
         topBar.setFillColor(sf::Color(50, 50, 50));
         window.draw(topBar);
 
-        sf::Font font;
-        font.loadFromFile("resource/retrofont.ttf");
         string scr = "Score " + to_string(score);
         string lvs = "Lives " + to_string(lives);
         sf::Text scoreTxt(scr, font);
@@ -192,8 +189,6 @@ void GameManager::Update(sf::RenderWindow& window)
     else if (gameState == 2) 
     {
         // victory
-        sf::Font font;
-        font.loadFromFile("resource/retrofont.ttf");
         string str = "Congratulations\n"; 
         str += "You scored " + to_string(score) + " points\n";
         str += "Press escape to end game\n";
@@ -206,8 +201,6 @@ void GameManager::Update(sf::RenderWindow& window)
     else if (gameState == 3) 
     {
         // lost
-        sf::Font font;
-        font.loadFromFile("resource/retrofont.ttf");
         string str = "You lost\n";
         str += "You only scored " + to_string(score) + " points\n";
         str += "Press escape to end game\n";
